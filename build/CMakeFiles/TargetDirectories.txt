@@ -1,4 +1,0 @@
-/home/wcl/github_upload/mosek_example/build/CMakeFiles/rebuild_cache.dir
-/home/wcl/github_upload/mosek_example/build/CMakeFiles/edit_cache.dir
-/home/wcl/github_upload/mosek_example/build/CMakeFiles/mosekTutorial_lp.dir
-/home/wcl/github_upload/mosek_example/build/CMakeFiles/mosekTutorial_cqp.dir
