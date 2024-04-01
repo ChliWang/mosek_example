@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/mosekTutorial_cqp.dir/example/CQP.cpp.o  -o mosekTutorial_cqp /home/wcl/Solvers/mosek/10.1/tools/platform/linux64x86/bin/libmosek64.so.10.1 /home/wcl/Solvers/mosek/10.1/tools/platform/linux64x86/bin/libfusion64.so.10.1 
