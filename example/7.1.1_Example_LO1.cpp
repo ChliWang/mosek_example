@@ -7,6 +7,7 @@ using namespace monty;
 int main(int argc, char *argv[])
 {
     //todo https://docs.mosek.com/latest/cxxfusion/tutorial-lo-shared.html#doc-tutorial-lo
+    //* Linear Optimization
     Model::t M = new Model("lo1");  auto _M = finally([&]() { M->dispose(); }); // 出了作用域后自动销毁
 
     auto A1 = new_array_ptr<double, 1>({3.0, 1.0, 2.0, 0.0});

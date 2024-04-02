@@ -8,7 +8,7 @@ using namespace monty;
 int main(int argc, char *argv[])
 {
     //todo https://docs.mosek.com/latest/cxxfusion/tutorial-cqo-shared.html
-
+    //* conic optimization problem
     Model::t M = new Model("cqo1");  auto _M = finally([&]() { M->dispose(); }); // 出了作用域后自动销毁
 
     Variable::t x = M->variable("x", 3, Domain::greaterThan(0.0));
