@@ -11,4 +11,4 @@ make
 ```
 
 # by the way
-If you are new to CMake, the way you write CMakeLists.txt may help you.
+If you are new to CMake, the way write CMakeLists.txt may help you.
