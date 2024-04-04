@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
 {
     //todo https://docs.mosek.com/latest/cxxfusion/tutorial-sdo-shared.html#
     // Sample data in sparse, symmetric triplet format
-    std::vector<int>    C1_k = {0, 2};
-    std::vector<int>    C1_l = {0, 2};
-    std::vector<double> C1_v = {1, 6};
+    std::vector<int>    C1_k = {0, 2}; // key ? sparse matrix for row index 
+    std::vector<int>    C1_l = {0, 2}; // column  sparse matrix for col index 
+    std::vector<double> C1_v = {1, 6}; 
     std::vector<int>    A1_k = {0, 2, 0, 2};
     std::vector<int>    A1_l = {0, 0, 2, 2};
     std::vector<double> A1_v = {1, 1, 1, 2};
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     M->constraint(Expr::add(Expr::dot(A1,X1), Expr::dot(A2,X2)), Domain::equalsTo(b));
 
     // Inequality constraint
-    M->constraint(X2->index(nint({0,1})), Domain::lessThan(k));
+    M->constraint(X2->index(nint({0,1})), Domain::lessThan(k)); // {0,1}只是一个vector
 
     // Solve
     M->setLogHandler([ = ](const std::string & msg) { std::cout << msg << std::flush; } );

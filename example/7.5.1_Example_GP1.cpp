@@ -14,11 +14,11 @@ void logsumexp(Model::t                             M,
                std::shared_ptr<ndarray<double, 1>>  b)
 {
   int k = A->size(0);
-  auto u = M->variable(k);
-  M->constraint(Expr::sum(u), Domain::equalsTo(1.0));
+  auto u = M->variable(k); // 
+  M->constraint(Expr::sum(u), Domain::equalsTo(1.0)); // sum(u_i) = 1 多个constraint不加具体名称
   M->constraint(Expr::hstack(u,
                              Expr::constTerm(k, 1.0),
-                             Expr::add(Expr::mul(A, x), b)), Domain::inPExpCone());
+                             Expr::add(Expr::mul(A, x), b)), Domain::inPExpCone()); // 2个affine conic Exp cons
 }
 
 std::shared_ptr<ndarray<double, 1>> max_volume_box(double Aw, double Af, 
@@ -40,7 +40,7 @@ std::shared_ptr<ndarray<double, 1>> max_volume_box(double Aw, double Af,
     
   M->setLogHandler([](const std::string & msg) { std::cout << msg << std::flush; } );
   M->solve();
-  
+  // 捕获外部变量xyz, 循环遍历xyz, *(xyz->level()) = x y z的值，通过return exp(x / y / z)恢复 h w d
   return std::make_shared<ndarray<double, 1>>(shape(3), [xyz](ptrdiff_t i) { return exp((*(xyz->level()))[i]); });
 }
 
@@ -56,10 +56,12 @@ int main(int argc, char *argv[])
     double beta  = 10.0;
     double gamma = 2.0;
     double delta = 10.0;
-    
-    auto hwd = max_volume_box(Aw, Af, alpha, beta, gamma, delta);
+    // std::shared_ptr<monty::ndarray<double, 1>> hwd
+    auto hwd = max_volume_box(Aw, Af, alpha, beta, gamma, delta); // 6 个 Scalar variables  
 
     std::cout << std::setprecision(4);
     std::cout << "h=" << (*hwd)[0] << " w=" << (*hwd)[1] << " d=" << (*hwd)[2] << std::endl;
     return 0;
 }
+
+//! 注意单项式变量替换的方法：该例子中表现出是分数相乘，转换为ExpCone

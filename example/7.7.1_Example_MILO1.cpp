@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     // Get the solution values
     auto sol = x->level();
-    std::cout << std::setiosflags(std::ios::scientific) << std::setprecision(2)
+    std::cout << std::setiosflags(std::ios::scientific) << std::setprecision(5)
                 << "x1 = " << (*sol)[0] << std::endl
                 << "x2 = " << (*sol)[1] << std::endl
                 << "MIP rel gap = " << M->getSolverDoubleInfo("mioObjRelGap") << " (" << M->getSolverDoubleInfo("mioObjAbsGap") << ")" << std::endl;

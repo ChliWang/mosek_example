@@ -3,10 +3,10 @@
 
 using namespace mosek::fusion;
 using namespace monty;
+//todo https://docs.mosek.com/latest/cxxfusion/tutorial-lo-shared.html#doc-tutorial-lo
 
 int main(int argc, char *argv[])
 {
-    //todo https://docs.mosek.com/latest/cxxfusion/tutorial-lo-shared.html#doc-tutorial-lo
     //* Linear Optimization
     Model::t M = new Model("lo1");  auto _M = finally([&]() { M->dispose(); }); // 出了作用域后自动销毁
 
