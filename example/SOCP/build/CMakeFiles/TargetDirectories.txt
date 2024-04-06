@@ -1,5 +1,0 @@
-/home/wcl/github_upload/mosek_example/example/SOCP/build/CMakeFiles/edit_cache.dir
-/home/wcl/github_upload/mosek_example/example/SOCP/build/CMakeFiles/socp_mosek.dir
-/home/wcl/github_upload/mosek_example/example/SOCP/build/CMakeFiles/socp_example.dir
-/home/wcl/github_upload/mosek_example/example/SOCP/build/CMakeFiles/rebuild_cache.dir
-/home/wcl/github_upload/mosek_example/example/SOCP/build/CMakeFiles/socp_Newton_example.dir

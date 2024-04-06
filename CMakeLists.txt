@@ -105,3 +105,5 @@ add_executable(${PROJECT_NAME}_qcqp_sdo_relaxation example/11.10_qcqp_sdo_relaxa
 target_link_libraries(${PROJECT_NAME}_qcqp_sdo_relaxation ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 # # 设置 DLL 搜索路径 指定 可执行文件生成目录
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LIBDIR})
+
+add_executable(${PROJECT_NAME}_matrix2Array example/matrix2Array.cpp)

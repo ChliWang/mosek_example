@@ -2,7 +2,7 @@
 #include "lbfgs_raw.hpp"
 #include <Eigen/Eigen>
 #include <iomanip>
-
+#include <ctime>
 using namespace std;
 using namespace Eigen;
 
@@ -81,6 +81,7 @@ public:
         double e_cons = 1, e_prec = 1; // e_cons KKT_condition => 对偶变量梯度， e_prec LBFGS无约束优化的精度
         int ret = 0, times = 0;
         bool firstLoop = true;
+        std::clock_t start_time = std::clock();
         while(e_cons > req_e_cons || e_prec > req_e_prec || firstLoop)
         {
             if (firstLoop) firstLoop = false;
@@ -103,14 +104,18 @@ public:
             PM_rho_ = std::min(PM_beta_, (1 + PM_gamma_) * PM_rho_);
             lbfgs_params.g_epsilon = std::max(lbfgs_params.g_epsilon * 0.1, 1e-5); // 逐渐提高内层循环prec
         }
+        std::clock_t end_time = std::clock();
+        double elapsed_time = static_cast<double>(end_time - start_time) / CLOCKS_PER_SEC;
+
         Eigen::Map<const Eigen::VectorXd> opt_x(x, m);
         std::ios old_settings(nullptr);
         old_settings.copyfmt(std::cout);
-        std::cout << std::fixed << std::setprecision(4);
+        std::cout << std::fixed << std::setprecision(8);
         std::cout << "\033[32m" << "ret: " << ret  << std::endl
                   << "mu_sqr_norm/2rho: " << PM_mu_.squaredNorm()/(2*PM_rho_) << std::endl
                   << "optimal sol: " << opt_x.transpose() << std::endl
-                  << "optimal obj: " << opt_x.dot(f) << "\033[0m" << std::endl;
+                  << "optimal obj: " << opt_x.dot(f) << "\033[0m" << std::endl
+                  << "optimal time : " << elapsed_time << " second\n";
         std::cout.copyfmt(old_settings);
         std::cout << "e_cons: " << e_cons << std::endl
                   << "e_prec: " << e_prec << std::endl;

@@ -1,3 +1,0 @@
-/home/wcl/NumOpt/SDQP/build/CMakeFiles/rebuild_cache.dir
-/home/wcl/NumOpt/SDQP/build/CMakeFiles/sdqp_example.dir
-/home/wcl/NumOpt/SDQP/build/CMakeFiles/edit_cache.dir

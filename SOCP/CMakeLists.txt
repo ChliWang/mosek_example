@@ -21,6 +21,5 @@ add_executable(${PROJECT_NAME}_example example/socp_example.cpp)
 add_executable(${PROJECT_NAME}_Newton_example example/socp_Newton_example.cpp)
 
 add_executable(${PROJECT_NAME}_mosek example/socp_mosek.cpp)
-target_link_libraries(${PROJECT_NAME}_example ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
-
+target_link_libraries(${PROJECT_NAME}_mosek ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 
