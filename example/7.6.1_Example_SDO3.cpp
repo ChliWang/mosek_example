@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     {
         std::vector<Expression::t> sumlist; // 创建一个表达式的 list
         for(int j=0; j<n ;j++)
-            sumlist.push_back( Expr::dot(A[i*n+j], slice(X, d, j)) ); // 逐个表达式：对应元素相乘的累加
+            sumlist.push_back( Expr::dot(A[i*n+j], slice(X, d, j)) ); // 逐表达式：AX_j
 
         M->constraint(Expr::add(new_array_ptr(sumlist)), Domain::greaterThan(b[i])); // 有k个X_j
     }

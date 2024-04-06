@@ -46,5 +46,34 @@ target_link_libraries(${PROJECT_NAME}_milo2 ${LIBDIR}/libmosek64.so.10.1 ${LIBDI
 add_executable(${PROJECT_NAME}_mico example/7.7.3_Example_MICO1.cpp)
 target_link_libraries(${PROJECT_NAME}_mico ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 
+add_executable(${PROJECT_NAME}_djc1 example/7.8.2_Example_DJC1.cpp)
+target_link_libraries(${PROJECT_NAME}_djc1 ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_reopt example/7.9_Model_Parametrization_and_Reoptimization.cpp)
+target_link_libraries(${PROJECT_NAME}_reopt ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_paramMdf example/7.10_Problem_Modification_and_Reoptimization.cpp)
+target_link_libraries(${PROJECT_NAME}_paramMdf ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_parallel example/7.11_Parallel_optimization.cpp)
+target_link_libraries(${PROJECT_NAME}_parallel ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_infeasibility example/7.12_Retrieving_infeasibility_certificates.cpp)
+target_link_libraries(${PROJECT_NAME}_infeasibility ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_response example/8.1_response.cc)
+target_link_libraries(${PROJECT_NAME}_response ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_callback example/8.7_callback.cc)
+target_link_libraries(${PROJECT_NAME}_callback ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_svm example/11.2_primal_svm.cc)
+target_link_libraries(${PROJECT_NAME}_svm ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_low_elli example/11.6_lownerjohn_ellipsoid.cc)
+target_link_libraries(${PROJECT_NAME}_low_elli ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+
+
 # # 设置 DLL 搜索路径 指定 可执行文件生成目录
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LIBDIR})

@@ -7,7 +7,7 @@ using namespace monty;
 
 int main(int argc, char *argv[])
 {
-    //! 看见e就要想起来 Exp Cone
+    //! 看见e就要想起来 conic Exp Cone
     Model::t M = new Model("mico1"); auto _M = finally([&]() { M->dispose(); });
 
     Variable::t x = M->variable(Domain::integral(Domain::unbounded()));

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     //todo https://docs.mosek.com/latest/cxxfusion/tutorial-ceo-shared.html
     //* Power Cone Optimization
     
-    Model::t M = new Model("ceo1");  auto _M = finally([&]() { M->dispose(); }); // 出了作用域后自动销毁
+    Model::t M = new Model("pow1");  auto _M = finally([&]() { M->dispose(); }); // 出了作用域后自动销毁
 
     Variable::t x = M->variable("x", 3, Domain::unbounded());
 

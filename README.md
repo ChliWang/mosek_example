@@ -1,5 +1,6 @@
 # mosek_example
-mosek for LP/QCP/PCOP...
+mosek for LP/CQO/POW/GP/SDO/MILO/MICO/DJC/Reopt
+mosek link:https://docs.mosek.com/latest/cxxfusion/optimization-tutorials.html
 
 # How To Use
 ```bash
