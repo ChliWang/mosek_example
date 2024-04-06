@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
 
   std::mt19937 e2(0);
 
-  for (int i = 0; i < nump; i++)
+  for (int i = 0; i < nump; i++)  
   {
     auto ram = std::bind(std::normal_distribution<>(mean, var), e2);
     for ( int j = 0; j < n; j++)

@@ -74,6 +74,34 @@ add_executable(${PROJECT_NAME}_low_elli example/11.6_lownerjohn_ellipsoid.cc)
 target_link_libraries(${PROJECT_NAME}_low_elli ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 
 
+add_executable(${PROJECT_NAME}_portfolio_5_card example/11.1_portfolio_5_card.cc)
+target_link_libraries(${PROJECT_NAME}_portfolio_5_card ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 
+add_executable(${PROJECT_NAME}_total_variation example/11.3_total_variation.cc)
+target_link_libraries(${PROJECT_NAME}_total_variation ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+# 11.4_lpt.cc
+# 11.5_logistic.cc
+# 11.7_sudoku.cc
+# 11.8_tsp.cc
+# 11.9_nearestcorr.cc
+# 11.10_qcqp_sdo_relaxation.cc
+add_executable(${PROJECT_NAME}_lpt example/11.4_lpt.cc)
+target_link_libraries(${PROJECT_NAME}_lpt ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_logistic example/11.5_logistic.cc)
+target_link_libraries(${PROJECT_NAME}_logistic ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_sudoku example/11.7_sudoku.cc)
+target_link_libraries(${PROJECT_NAME}_sudoku ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_tsp example/11.8_tsp.cc)
+target_link_libraries(${PROJECT_NAME}_tsp ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_nearestcorr example/11.9_nearestcorr.cc)
+target_link_libraries(${PROJECT_NAME}_nearestcorr ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
+
+add_executable(${PROJECT_NAME}_qcqp_sdo_relaxation example/11.10_qcqp_sdo_relaxation.cc)
+target_link_libraries(${PROJECT_NAME}_qcqp_sdo_relaxation ${LIBDIR}/libmosek64.so.10.1 ${LIBDIR}/libfusion64.so.10.1)
 # # 设置 DLL 搜索路径 指定 可执行文件生成目录
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${LIBDIR})
