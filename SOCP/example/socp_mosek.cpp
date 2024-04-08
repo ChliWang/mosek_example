@@ -4,6 +4,7 @@
 #include <iterator>
 
 #include <fusion.h>
+#include <exception>
 
 using namespace mosek::fusion;
 using namespace monty;
@@ -89,15 +90,29 @@ public:
         Variable::t x  =  M->variable(m, Domain::unbounded());
         Expression::t right = Expr::add(x->index(0), 1.0);
 
-        // auto A_def  = Matrix::dense(new_array_ptr<double, 2>
-                        // ({{7.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 
-                        //   {0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 0.0}, 
-                        //   {0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0}, 
-                        //   {0.0, 0.0, 0.0, 4.0, 0.0, 0.0, 0.0}, 
-                        //   {0.0, 6.0, 0.0, 0.0, 3.0, 0.0, 0.0}, 
-                        //   {0.0, 6.0, 0.0, 0.0, 0.0, 2.0, 0.0}, 
-                        //   {0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0}})); // new_array_ptr<double, rank> rank = 2表示维数有2维
-
+        //* From Eigen::MatrixXd 间接定义A_def1
+        std::shared_ptr<ndarray<double,2>> A_def1 = std::make_shared<ndarray<double,2>>(shape(A.rows(), A.cols()));
+        for (int i = 0; i < A.rows(); i++) 
+            for (int j = 0; j < A.cols(); j++) 
+                (*A_def1)(i, j) = A(i, j);
+        std::cout << "A_def1 " << std::endl;
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) 
+                std::cout << (*A_def1)(i, j) << " ";
+            std::cout << std::endl;
+        }        
+        //* 间接定义A_def2
+        std::shared_ptr<ndarray<double,1>> A_def2 = std::make_shared<ndarray<double,1>>(shape(A.rows() * A.cols()));
+        for (int i = 0; i < A.rows(); i++) 
+            for (int j = 0; j < A.cols(); j++) 
+                (*A_def2)(i * m + j) = A(i, j);
+        std::cout << "A_def2 " << std::endl;
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 7; j++) 
+                std::cout << (*A_def2)(i*m+j) << " ";
+            std::cout << std::endl;
+        }  
+        //* 直接定义A_def
         auto A_def  = new_array_ptr<double, 1>
                         ({7.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                           0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 0.0,
@@ -106,29 +121,77 @@ public:
                           0.0, 0.0, 0.0, 0.0, 3.0, 0.0, 0.0,
                           0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 0.0,
                           0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0});
-        
-        // auto b = dblarray({1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0}); // Direct initialization
-        // auto f_m = ndou(std::vector<double>(c.data(), c.data() + c.size())); // Convert Eigen::VectorXd to std::vector
-        // printsol(f_m);
-
+        //* 直接定义b_m, f_m
         auto b_m = new_array_ptr<double, 1>({1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0});
         auto f_m = new_array_ptr<double, 1>({1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0});
+        std::cout << "b_m " << std::endl;
         printsol(b_m);
+        std::cout << "f_m " << std::endl;
         printsol(f_m);
-        M->constraint(Expr::vstack(right, Expr::add(Expr::mul(Matrix::dense(m, m, A_def), x), b_m)), Domain::inQCone());
-        M->objective(ObjectiveSense::Minimize, Expr::dot(f_m, x) );
-        // try
-        // {
-        M->setLogHandler([ = ](const std::string & msg) { std::cout << msg << std::flush; } ); 
+        //* From std::vector<double> 间接定义b_m2, f_m2
+        auto b_m2 = dblarray({1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0}); // Direct initialization
+        auto f_m2 = ndou(std::vector<double>(c.data(), c.data() + c.size())); // Convert Eigen::VectorXd to std::vector
+        std::cout << "b_m2 " << std::endl;
+        printsol(b_m2);
+        std::cout << "f_m2 " << std::endl;
+        printsol(f_m2);
+        // printsol(f_m);
+        M->constraint(Expr::vstack(right, Expr::add(Expr::mul(Matrix::dense(7, 7, A_def2), x), b_m2)), Domain::inQCone());
+        M->objective(ObjectiveSense::Minimize, Expr::dot(f_m2, x) );
+        // setupExample(M);
+        try
+        {
+            // M->setLogHandler([ = ](const std::string & msg) { std::cout << msg << std::flush; } ); 
+            M->setSolverParam("mioTolRelGap", 1e-5); 
+            M->solve();
 
-        M->setSolverParam("mioTolRelGap", 1e-5); 
-        M->solve();
-        printsol(x->level());
-        double tm = M->getSolverDoubleInfo("optimizerTime");
-        int it = M->getSolverIntInfo("intpntIter");
-        std::cout << "Time: " << tm << "\nIterations: " << it << "\n";
-        // }
-        // catch (...) {}
+            // We expect solution status OPTIMAL (this is also default)
+            M->acceptedSolutionStatus(AccSolutionStatus::Optimal);
+            printsol(x->level());
+            double tm = M->getSolverDoubleInfo("optimizerTime");
+            int it = M->getSolverIntInfo("intpntIter");
+            std::cout << "Time: " << tm << "\nIterations: " << it << "\n";
+        }
+        catch (const OptimizeError& e)
+        {
+            std::cout << "Optimization failed. Error: " << e.what() << "\n";
+        }
+        catch (const SolutionError& e)
+        {
+            // The solution with at least the expected status was not available.
+            // We try to diagnoze why.
+            std::cout << "Requested solution was not available.\n";
+            auto prosta = M->getProblemStatus();
+            switch(prosta)
+            {
+            case ProblemStatus::DualInfeasible:
+                std::cout << "Dual infeasibility certificate found.\n";
+                break;
+
+            case ProblemStatus::PrimalInfeasible:
+                std::cout << "Primal infeasibility certificate found.\n";
+                break;
+
+            case ProblemStatus::Unknown:
+                // The solutions status is unknown. The termination code
+                // indicates why the optimizer terminated prematurely.
+                std::cout << "The solution status is unknown.\n";
+                char symname[MSK_MAX_STR_LEN];
+                char desc[MSK_MAX_STR_LEN];
+                // MSK_getcodedesc((MSKrescodee)(M->getSolverIntInfo("optimizeResponse")), symname, desc);//? 有问题...
+                // std::cout << "  Termination code: " << symname << " " << desc << "\n";
+                break;
+
+            default:
+                std::cout << "Another unexpected problem status: " << prosta << "\n";
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Unexpected error: " << e.what() << "\n";
+        }
+
+        M->dispose();
     }
     
     void run()
